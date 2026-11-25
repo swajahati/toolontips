@@ -1,0 +1,45 @@
+{
+  "name": "toolontips",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^4.3.2",
+    "@techstark/opencv-js": "^5.0.0-release.1",
+    "browser-image-compression": "^2.0.2",
+    "clsx": "^2.1.1",
+    "docx-preview": "^0.4.1",
+    "fabric": "^7.4.0",
+    "heic2any": "^0.0.4",
+    "html2pdf.js": "^0.14.0",
+    "lucide-react": "^1.78.0",
+    "next": "16.4.6",
+    "next-themes": "^0.4.6",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^5.4.624",
+    "pdfstudio": "^0.4.0",
+    "qrcode": "^1.5.4",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "tesseract.js": "^7.0.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  },
+  "devDependencies": {
+    "@tailwindcss/turbopack": "4.3.3",
+    "@types/node": "^20",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.6",
+    "tailwindcss": "4.3.3",
+    "tesseract.js-core": "^7.0.0",
+    "typescript": "^5"
+  }
+}

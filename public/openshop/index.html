@@ -1751,64 +1751,15 @@ body.fullscreen #toast-container{bottom:24px}
   flex:1;
   min-height:190px;
   margin-top:22px;
-  perspective:800px;
+  display:grid;
+  place-items:center;
 }
-.art-grid{
-  position:absolute;
-  inset:8px -60px -40px -10px;
-  opacity:.36;
-  background-image:linear-gradient(color-mix(in srgb, var(--border-active) 30%, transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb, var(--border-active) 30%, transparent) 1px,transparent 1px);
-  background-size:22px 22px;
-  transform:rotateX(64deg) rotateZ(-8deg);
-  transform-origin:center bottom;
-}
-.art-frame{
-  position:absolute;
-  border:1px solid color-mix(in srgb, var(--accent-hover) 36%, transparent);
-  border-radius:9px;
-  background:color-mix(in srgb, var(--bg-depth-1) 86%, transparent);
-  box-shadow:0 18px 40px rgba(0,0,0,.32);
-}
-.art-frame span{
-  position:absolute;
-  top:10px;
-  left:12px;
-  color:var(--text-muted);
-  font-size:7px;
-  font-weight:700;
-  letter-spacing:.16em;
-}
-.art-frame-back{width:72%;height:54%;left:23%;top:8%;transform:rotate(5deg)}
-.art-frame-mid{width:72%;height:56%;left:12%;top:20%;transform:rotate(-4deg)}
-.art-frame-front{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  width:78%;
-  height:62%;
-  left:7%;
-  bottom:0;
-  padding:17px;
-  overflow:hidden;
-  background:linear-gradient(135deg,color-mix(in srgb, var(--bg-depth-4) 96%, transparent),color-mix(in srgb, var(--bg-depth-1) 96%, transparent));
-}
-.art-frame-front strong{
-  position:relative;
-  z-index:2;
-  color:var(--text-primary);
-  font-size:14px;
-  line-height:1.02;
-  letter-spacing:-.4px;
-}
-.art-orb{
-  position:absolute;
-  width:112px;
-  height:112px;
-  right:-8px;
-  bottom:-18px;
-  border-radius:50%;
-   background:radial-gradient(circle at 32% 30%,var(--danger) 0%,color-mix(in srgb, var(--danger) 72%, var(--chrome-black)) 24%,color-mix(in srgb, var(--accent) 80%, var(--chrome-black)) 58%,var(--bg-depth-4) 100%);
-  box-shadow:-22px -8px 50px color-mix(in srgb, var(--accent) 26%, transparent);
+.welcome-art-logo{
+  width:min(78%,250px);
+  max-height:100%;
+  height:auto;
+  object-fit:contain;
+  filter:drop-shadow(0 18px 40px color-mix(in srgb,var(--accent) 28%,transparent));
 }
 .welcome-launch{
   overflow-y:auto;
@@ -3745,10 +3696,7 @@ html[data-os-workspace="mobile"][data-os-bottom-tab="timeline"] body:not(.fullsc
                 <span>Zero install</span><span>Private by default</span><span>PSD ready</span>
             </div>
             <div class="welcome-art" aria-hidden="true">
-                <div class="art-grid"></div>
-                <div class="art-frame art-frame-back"><span>HISTORY</span></div>
-                <div class="art-frame art-frame-mid"><span>LAYERS</span></div>
-                <div class="art-frame art-frame-front"><div class="art-orb"></div><strong>CREATE<br>WITHOUT<br>COMPROMISE</strong></div>
+                <img class="welcome-art-logo" src="/openshop/icon.png" alt="">
             </div>
         </section>
         <section class="welcome-launch">

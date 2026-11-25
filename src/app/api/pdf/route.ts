@@ -1,6 +1,7 @@
 import { runPdfJobServer } from "@/lib/pdfServer";
 import type { PdfJob } from "@/types/pdf";
 
+// Use Next.js's default Node.js runtime with cache components enabled.
 function revive(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(revive);
   if (!value || typeof value !== "object") return value;

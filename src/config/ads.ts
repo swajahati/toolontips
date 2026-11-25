@@ -1,11 +1,16 @@
-const publisherId = process.env.NEXT_PUBLIC_ADSENSE_ID ?? "ca-pub-XXXXXXXXXXXXXXXX";
+const publisherId = process.env.NEXT_PUBLIC_ADSENSE_ID ?? "ca-pub-7213784644451419";
 const slotId = process.env.NEXT_PUBLIC_ADSENSE_SLOT ?? "0000000000";
+
+const publisherConfigured = !publisherId.includes("XXXXXXXXXXXXXXXX");
+const slotConfigured = slotId !== "0000000000";
 
 export const adConfig = {
   enabled: process.env.NEXT_PUBLIC_ENABLE_ADS === "true",
   publisherId,
   slotId,
-  configured: !publisherId.includes("XXXXXXXXXXXXXXXX") && slotId !== "0000000000",
+  publisherConfigured,
+  slotConfigured,
+  configured: publisherConfigured && slotConfigured,
   width: 300,
   height: 250,
 };

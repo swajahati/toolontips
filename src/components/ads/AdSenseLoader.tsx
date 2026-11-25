@@ -14,7 +14,7 @@ export function AdSenseLoader() {
   const consent = useConsent();
 
   useEffect(() => {
-    if (!adConfig.enabled || !adConfig.configured || !consent?.ads) return;
+    if (!adConfig.enabled || !adConfig.publisherConfigured || !consent?.ads) return;
 
     const announce = () => window.dispatchEvent(new Event(ADSENSE_LOADED_EVENT));
     const existing = document.querySelector<HTMLScriptElement>("script[data-adsense-loader]");

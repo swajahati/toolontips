@@ -42,6 +42,47 @@ const styles = `
   --radius-lg:12px;
 }
 
+:root.dark,
+:root.theme-midnight,
+:root.theme-oled,
+:root[data-os-theme="midnight"],
+:root[data-os-theme="oled"] {
+  --bg-depth-0:#0b1120;
+  --bg-depth-1:#111c31;
+  --bg-depth-2:#0f192c;
+  --bg-depth-3:#16243d;
+  --bg-depth-4:#24344f;
+  --border:#24344f;
+  --border-active:#334966;
+  --text-primary:#e2e8f0;
+  --text-secondary:#a8b6cc;
+  --text-muted:#8fa1bb;
+  --accent:#60a5fa;
+  --accent-hover:#93c5fd;
+  --accent-alt:#60a5fa;
+  --accent-dim:rgba(96,165,250,.16);
+  --accent-shadow:rgba(96,165,250,.24);
+  --accent-contrast-bg:#60a5fa;
+  --success:#34d399;
+  --warning:#fbbf24;
+  --danger:#f87171;
+  --canvas-bg:#0b1120;
+  --glass:rgba(17,28,49,.96);
+  --glass-border:rgba(96,165,250,.24);
+  --checker-a:#111c31;
+  --checker-b:#0f192c;
+  --guide:#22d3ee;
+  --smart-guide:#f472b6;
+  --theme-color:#0b1120;
+  --on-accent:#081225;
+  --chrome-black:#e2e8f0;
+  --chrome-checker-base:#111c31;
+  --chrome-checker-alt:#0f192c;
+  --note-text:#e2e8f0;
+  --chrome-shadow:rgba(0,0,0,.5);
+  --chrome-shadow-soft:rgba(0,0,0,.35);
+}
+
 html,
 body {
   font-family:var(--font-ui);
@@ -117,7 +158,7 @@ body {
 
 .btn-danger {
   background:var(--bg-depth-1);
-  border-color:#fecaca;
+  border-color:var(--danger);
   color:var(--danger);
 }
 

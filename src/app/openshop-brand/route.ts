@@ -1,8 +1,49 @@
 const script = `(() => {
   const targetTitle = "Toolontips Photo Studio | Free Browser Image Editor";
   const observedAttributes = ["aria-label", "title", "placeholder", "alt", "content", "data-os-theme"];
+  let darkTheme = false;
+  let applyingTheme = false;
+  let originalSetTheme = null;
 
-  document.documentElement.dataset.osTheme = "light";
+  const storedTheme = () => {
+    try { return localStorage.getItem("theme"); } catch { return null; }
+  };
+  const prefersDark = () => {
+    try { return window.matchMedia("(prefers-color-scheme: dark)").matches; } catch { return false; }
+  };
+  const resolveDark = () => {
+    const value = storedTheme();
+    if (value === "dark") return true;
+    if (value === "light") return false;
+    return prefersDark();
+  };
+  const osTheme = () => darkTheme ? "midnight" : "light";
+  const themeColor = () => darkTheme ? "#0b1120" : "#ffffff";
+
+  const syncTheme = (updateEditor = true) => {
+    if (applyingTheme) return;
+    applyingTheme = true;
+    try {
+      const nextDark = resolveDark();
+      darkTheme = nextDark;
+      const root = document.documentElement;
+      root.classList.toggle("dark", nextDark);
+      root.classList.remove("theme-light", "theme-midnight", "theme-oled");
+      root.classList.add(nextDark ? "theme-midnight" : "theme-light");
+      const dataTheme = osTheme();
+      if (root.dataset.osTheme !== dataTheme) root.dataset.osTheme = dataTheme;
+      const meta = document.getElementById("theme-color-meta");
+      const color = themeColor();
+      if (meta && meta.getAttribute("content") !== color) meta.setAttribute("content", color);
+      if (updateEditor && originalSetTheme && typeof OS !== "undefined" && OS._currentTheme !== dataTheme) {
+        originalSetTheme(dataTheme, { persist:false });
+      }
+    } finally {
+      applyingTheme = false;
+    }
+  };
+
+  syncTheme(false);
 
   const replaceInTextNode = (node) => {
     if (!node.nodeValue || !node.nodeValue.includes("OpenShop")) return;
@@ -12,11 +53,13 @@ const script = `(() => {
   };
 
   const replaceInElement = (element) => {
-    if (element === document.documentElement && element.dataset.osTheme !== "light") {
-      element.dataset.osTheme = "light";
+    if (element === document.documentElement) {
+      syncTheme(false);
+      return;
     }
     if (element.id === "theme-color-meta") {
-      if (element.getAttribute("content") !== "#ffffff") element.setAttribute("content", "#ffffff");
+      const color = themeColor();
+      if (element.getAttribute("content") !== color) element.setAttribute("content", color);
       return;
     }
     if (element.tagName === "TITLE") {
@@ -24,7 +67,6 @@ const script = `(() => {
       return;
     }
     for (const attribute of observedAttributes) {
-      if (attribute === "data-os-theme") continue;
       const value = element.getAttribute(attribute);
       if (value && value.includes("OpenShop")) {
         element.setAttribute(attribute, value.replaceAll("OpenShop", "Toolontips Photo Studio"));
@@ -68,6 +110,22 @@ const script = `(() => {
     attributeFilter: observedAttributes,
   });
 
+  window.addEventListener("storage", (event) => {
+    if (event.key === "theme") syncTheme(true);
+  });
+
+  try {
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => syncTheme(true));
+  } catch {}
+
+  const patchTheme = () => {
+    if (typeof OS === "undefined" || !OS.setTheme || OS.__toolontipsThemePatched) return;
+    originalSetTheme = OS.setTheme.bind(OS);
+    OS.__toolontipsThemePatched = true;
+    OS.setTheme = function() { syncTheme(true); };
+    syncTheme(true);
+  };
+
   const patchDiscardPrompt = () => {
     if (typeof OS === "undefined" || !OS._confirmDiscardUnsaved || OS.__toolontipsDiscardPatched) return;
     OS.__toolontipsDiscardPatched = true;
@@ -83,6 +141,7 @@ const script = `(() => {
 
   const bootObserver = new MutationObserver(() => {
     if (document.documentElement.dataset.osBoot === "ready") {
+      patchTheme();
       patchDiscardPrompt();
       bootObserver.disconnect();
     }
@@ -92,6 +151,7 @@ const script = `(() => {
     attributeFilter: ["data-os-boot"],
   });
   if (document.documentElement.dataset.osBoot === "ready") {
+    patchTheme();
     patchDiscardPrompt();
     bootObserver.disconnect();
   }

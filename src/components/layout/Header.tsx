@@ -1,5 +1,5 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Wrench } from "lucide-react";
 import { RegionSwitcher } from "@/components/layout/RegionSwitcher";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { Container } from "@/components/layout/Container";
@@ -16,9 +16,14 @@ export function Header() {
       <Container>
         <div className="flex flex-wrap items-center justify-between gap-3 py-4">
           <Link href="/" className="flex items-center gap-2 font-bold tracking-tight">
-            <span className="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <Wrench className="size-5" aria-hidden="true" />
-            </span>
+            <Image
+              src="/icon-192.png"
+              alt=""
+              width={36}
+              height={36}
+              priority
+              className="size-9 rounded-lg object-cover"
+            />
             <span className="text-lg">{siteConfig.name}</span>
           </Link>
 

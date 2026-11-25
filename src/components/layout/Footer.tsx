@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { CookieSettingsButton } from "@/components/layout/CookieSettingsButton";
 import { Container } from "@/components/layout/Container";
@@ -13,7 +14,16 @@ export function Footer() {
       <Container className="py-10">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <p className="text-base font-bold">{siteConfig.name}</p>
+            <div className="flex items-center gap-2">
+              <Image
+                src="/icon-192.png"
+                alt=""
+                width={32}
+                height={32}
+                className="size-8 rounded-lg object-cover"
+              />
+              <p className="text-base font-bold">{siteConfig.name}</p>
+            </div>
             <p className="mt-2 max-w-xs text-sm text-muted">{t("footer.tagline")}</p>
           </div>
           <div>

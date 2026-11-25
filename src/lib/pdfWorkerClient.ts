@@ -1,70 +1,112 @@
 "use client";
 
-import type { PdfJob } from "@/types/pdf";
+import type { PdfJob, PdfWorkerResponse } from "@/types/pdf";
 
 const DEFAULT_WORKER_TIMEOUT_MS = 120_000;
 
-type EncodedBytes = { __bytes: string };
+function transferablesFor(job: PdfJob): Transferable[] {
+  const buffers: ArrayBuffer[] = [];
 
-function toBase64(bytes: Uint8Array): string {
-  let binary = "";
-  const chunkSize = 0x8000;
-  for (let index = 0; index < bytes.length; index += chunkSize) {
-    binary += String.fromCharCode(...bytes.subarray(index, index + chunkSize));
+  if (job.type === "merge") buffers.push(...job.files);
+  if (
+    job.type === "split" ||
+    job.type === "compress" ||
+    job.type === "watermark" ||
+    job.type === "page-numbers" ||
+    job.type === "rotate" ||
+    job.type === "remove-watermark" ||
+    job.type === "organize" ||
+    job.type === "sign" ||
+    job.type === "unlock" ||
+    job.type === "protect"
+  ) {
+    buffers.push(job.file);
   }
-  return btoa(binary);
+  if (job.type === "images") buffers.push(...job.images.map((image) => image.bytes));
+  if (job.type === "watermark" && job.options.mode === "image") {
+    buffers.push(job.options.image.bytes);
+  }
+  if (job.type === "organize" && job.options.insert) {
+    buffers.push(job.options.insert.file);
+  }
+  if (job.type === "sign") {
+    buffers.push(job.options.signature.bytes);
+  }
+
+  return buffers;
 }
 
-function fromBase64(value: string): Uint8Array {
-  const binary = atob(value);
-  const bytes = new Uint8Array(binary.length);
-  for (let index = 0; index < binary.length; index += 1) {
-    bytes[index] = binary.charCodeAt(index);
-  }
-  return bytes;
-}
+async function runLocally(job: PdfJob): Promise<Uint8Array> {
+  const processor = await import("@/lib/pdfProcessor");
 
-function encode(value: unknown): unknown {
-  if (value instanceof Uint8Array) {
-    return { __bytes: toBase64(value) } satisfies EncodedBytes;
+  switch (job.type) {
+    case "merge":
+      return processor.mergePdfs(job.files);
+    case "split":
+      return processor.splitPdf(job.file, job.spec);
+    case "images":
+      return processor.imagesToPdf(job.images, job.pageSize, job.fit);
+    case "compress":
+      return processor.compressPdfStructure(job.file);
+    case "watermark":
+      return processor.addWatermark(job.file, job.options);
+    case "page-numbers":
+      return processor.addPageNumbers(job.file, job.options);
+    case "rotate":
+      return processor.rotatePdf(job.file, job.options);
+    case "remove-watermark":
+      return processor.removeWatermark(job.file, job.options);
+    case "organize":
+      return processor.organizePdf(job.file, job.options);
+    case "sign":
+      return processor.signPdf(job.file, job.options);
+    case "unlock": {
+      const security = await import("@/lib/pdfSecurity");
+      return security.unlockPdf(job.file, job.password);
+    }
+    case "protect": {
+      const security = await import("@/lib/pdfSecurity");
+      return security.protectPdf(job.file, job.options);
+    }
   }
-  if (value instanceof ArrayBuffer) {
-    return { __bytes: toBase64(new Uint8Array(value)) } satisfies EncodedBytes;
-  }
-  if (Array.isArray(value)) return value.map(encode);
-  if (!value || typeof value !== "object") return value;
-
-  return Object.fromEntries(
-    Object.entries(value).map(([key, nested]) => [key, encode(nested)]),
-  );
 }
 
 export async function runPdfJob(
   job: PdfJob,
   timeoutMs: number = DEFAULT_WORKER_TIMEOUT_MS,
 ): Promise<Uint8Array> {
-  const controller = new AbortController();
-  const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
+  let instance: Worker;
 
   try {
-    const response = await fetch("/api/pdf", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ job: encode(job) }),
-      signal: controller.signal,
+    instance = new Worker(new URL("../workers/pdfWorker.ts", import.meta.url), {
+      type: "module",
     });
+  } catch {
+    return runLocally(job);
+  }
 
-    const payload = (await response.json()) as {
-      bytes?: string;
-      message?: string;
+  return new Promise<Uint8Array>((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      instance.terminate();
+      reject(new Error("TIMEOUT"));
+    }, timeoutMs);
+
+    instance.onmessage = (event: MessageEvent<PdfWorkerResponse>) => {
+      clearTimeout(timeout);
+      instance.terminate();
+      if (event.data.ok) {
+        resolve(event.data.bytes);
+      } else {
+        reject(new Error(event.data.message));
+      }
     };
 
-    if (!response.ok || !payload.bytes) {
-      throw new Error(payload.message || "PDF processing failed");
-    }
+    instance.onerror = () => {
+      clearTimeout(timeout);
+      instance.terminate();
+      reject(new Error("WORKER_ERROR"));
+    };
 
-    return fromBase64(payload.bytes);
-  } finally {
-    window.clearTimeout(timeout);
-  }
+    instance.postMessage(job, transferablesFor(job));
+  });
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "./globals";
 import { AdSenseLoader } from "@/components/ads/AdSenseLoader";
 import { ConsentBanner } from "@/components/ads/ConsentBanner";
 import { Footer } from "@/components/layout/Footer";

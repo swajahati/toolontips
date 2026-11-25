@@ -28,7 +28,7 @@ const contentSecurityPolicy = [
   `script-src ${scriptSources.join(" ")}${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}`,
   "worker-src 'self' blob:",
   "connect-src 'self' https://www.google.com https://www.gstatic.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://pagead2.googlesyndication.com https://cdn.jsdelivr.net https://huggingface.co https://*.hf.co blob:",
-  "frame-src 'self' blob: https://www.google.com https://googleads.g.doubleclick.net https://www.googleadservices.com",
+  "frame-src 'self' blob: https://www.google.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://pagead2.googlesyndication.com https://tpc.googlesyndication.com",
 ].join("; ");
 
 const nextConfig: NextConfig = {

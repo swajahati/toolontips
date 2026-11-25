@@ -284,7 +284,7 @@
   },
   "consent": {
     "title": "Your privacy choices",
-    "body": "We ask before using non-essential cookies or advertising technology. Essential choices keep the site working. You can change your decision at any time from the footer.",
+    "body": "We ask before activating analytics or personalised ads. Essential choices keep the site working. You can change your decision at any time from the footer.",
     "essential": "Essential (always on)",
     "analytics": "Analytics",
     "ads": "Personalised ads",
@@ -294,7 +294,7 @@
     "save": "Save choices",
     "hide": "Hide this message",
     "footerLink": "Change cookie choices",
-    "note": "No advertising or tracking scripts are loaded before you choose."
+    "note": "Google's advertising script may load on pages. Your choice controls analytics and ad slots where required."
   },
   "region": {
     "title": "Region and language",

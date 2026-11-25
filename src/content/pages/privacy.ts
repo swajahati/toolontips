@@ -4,7 +4,7 @@ export const privacyContent: PageContent = {
   title: "Privacy Policy",
   description:
     "How Toolontips handles cookies, consent, browser-based processing and third-party advertising partners.",
-  updated: "2026-11-23",
+  updated: "2026-11-25",
   intro:
     "This policy explains what happens to information when you use Toolontips. It is written for ordinary readers, and it describes the site as it is built rather than features we plan to add later.",
   sections: [
@@ -12,7 +12,7 @@ export const privacyContent: PageContent = {
       heading: "The short version",
       paragraphs: [
         "You do not need an account to use this site. Tools that work in your browser are designed to read your file or text on your device and to create the download there. We do not ask you to upload those inputs to us. We do not sell personal information, and we do not show advertising before you have made a choice where a choice is required.",
-        "Advertising is currently switched off. When it is switched on, third parties such as Google may set cookies as described below. The footer link called Change cookie choices reopens your decision at any time.",
+        "Google AdSense is connected to this site. Google and its partners may set cookies or use similar technologies to choose adverts and measure performance. The footer link called Change cookie choices reopens your decision at any time.",
       ],
     },
     {
@@ -31,11 +31,14 @@ export const privacyContent: PageContent = {
       heading: "Information handled by other parties",
       paragraphs: [
         "A website cannot be served without ordinary technical information passing between your browser and the company that hosts it. That normally includes your IP address, browser type and the address of the page you requested. Hosting and security providers handle this as part of keeping the site available.",
-        "When advertising is enabled, Google AdSense and its partners may use cookies or similar technologies to decide which advert to show and to measure performance. Google's own consent and advertising infrastructure may also be involved. These parties act under their own privacy terms, not ours.",
+        "Google AdSense and its partners may use cookies or similar technologies to decide which advert to show, limit repeated adverts and measure performance. Google's own consent and advertising infrastructure may also be involved. These parties act under their own privacy terms, not ours.",
       ],
       bullets: [
         "Google AdSense and Google advertising products",
         "Google consent and cookie infrastructure",
+        "How Google uses data: https://policies.google.com/privacy",
+        "How Google uses information from partner sites: https://policies.google.com/technologies/partner-sites",
+        "Google ad settings and opt-out: https://www.google.com/settings/ads",
         "Hosting and security providers serving the site",
       ],
     },
@@ -43,7 +46,7 @@ export const privacyContent: PageContent = {
       heading: "Cookies and consent",
       paragraphs: [
         "Strictly necessary storage keeps your theme, region and consent decision working. Your consent choice is stored in your browser's local storage so we can remember it on your next visit. It is not used to identify you to advertisers.",
-        "Before advertising is enabled on the live site, a Google-certified consent management platform will be connected so regional rules are applied automatically. The banner shown during development records your choice locally and loads no advertising or tracking scripts at all. Non-essential technologies are not used before you choose where consent is required.",
+        "The site uses a consent banner to record your choice in your browser. You can reopen it from the footer link called Change cookie choices. Google's advertising script is loaded on pages so Google can verify this site and serve ads after approval. The recorded choice controls whether analytics and ad slots are activated; it does not stop the Google script itself from loading. A Google-certified consent management platform is recommended for EEA, UK and Switzerland traffic before personalised ads are served.",
       ],
     },
     {

@@ -33,6 +33,9 @@ export const metadata: Metadata = {
     title: `${siteConfig.name} | ${t("site.defaultTitle")}`,
     description: siteConfig.description,
   },
+  other: {
+    "google-adsense-account": siteConfig.adsenseId,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

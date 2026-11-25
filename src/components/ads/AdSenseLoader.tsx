@@ -17,9 +17,9 @@ export function AdSenseLoader() {
     if (!adConfig.enabled || !adConfig.publisherConfigured || !consent?.ads) return;
 
     const announce = () => window.dispatchEvent(new Event(ADSENSE_LOADED_EVENT));
-    const existing = document.querySelector<HTMLScriptElement>("script[data-adsense-loader]");
+    const existing = document.querySelector<HTMLScriptElement>('script[src*="adsbygoogle.js"]');
     if (existing) {
-      if (existing.dataset.adsenseLoaded === "true") announce();
+      if (window.adsbygoogle) announce();
       return;
     }
 

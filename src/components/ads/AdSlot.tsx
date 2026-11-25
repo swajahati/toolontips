@@ -28,6 +28,11 @@ export function AdSlot({ className = "" }: { className?: string }) {
       }
     };
 
+    if (window.adsbygoogle) {
+      push();
+      return;
+    }
+
     const script = document.querySelector<HTMLScriptElement>("script[data-adsense-loader]");
     if (script?.dataset.adsenseLoaded === "true") {
       push();

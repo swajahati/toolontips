@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { AdSenseLoader } from "@/components/ads/AdSenseLoader";
 import { ConsentBanner } from "@/components/ads/ConsentBanner";
@@ -61,6 +62,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <JsonLd data={[websiteJsonLd(), organizationJsonLd()]} />
         </ThemeProvider>
       </body>
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7213784644451419"
+        crossOrigin="anonymous"
+      />
     </html>
   );
 }

@@ -1,8 +1,6 @@
 import { runPdfJobServer } from "@/lib/pdfServer";
 import type { PdfJob } from "@/types/pdf";
 
-export const runtime = "nodejs";
-
 function revive(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(revive);
   if (!value || typeof value !== "object") return value;

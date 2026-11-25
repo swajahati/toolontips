@@ -62,6 +62,13 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  webpack(config, { isServer, webpack }) {
+    if (!isServer) {
+      // pdfstudio has Node-only fallbacks that cannot execute in a browser.
+      config.plugins.push(new webpack.IgnorePlugin({ resourceRegExp: /^node:/ }));
+    }
+    return config;
+  },
 };
 
 export default nextConfig;

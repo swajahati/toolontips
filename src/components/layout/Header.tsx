@@ -17,7 +17,7 @@ export function Header() {
         <div className="flex flex-wrap items-center justify-between gap-3 py-4">
           <Link href="/" className="flex items-center gap-2 font-bold tracking-tight">
             <Image
-              src="/icon-192.png"
+              src="/brand/logo.png"
               alt=""
               width={36}
               height={36}

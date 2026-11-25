@@ -19,6 +19,7 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,
+  manifest: "/manifest.webmanifest",
   alternates: { canonical: "/", languages: { en: "/" } },
   openGraph: {
     title: `${siteConfig.name} | ${t("site.defaultTitle")}`,

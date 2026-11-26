@@ -34,6 +34,24 @@ const contentSecurityPolicy = [
 const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
+  async redirects() {
+    const wwwHost = [{ type: "host" as const, value: "^www\\.toolsontip\\.com$" }];
+
+    return [
+      {
+        source: "/",
+        has: wwwHost,
+        destination: "https://toolsontip.com/",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: wwwHost,
+        destination: "https://toolsontip.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     return {
       beforeFiles: [

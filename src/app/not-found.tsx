@@ -12,7 +12,6 @@ export const metadata: Metadata = pageMetadata({
   title: "Page not found",
   description: "The page you asked for could not be found on Toolontips.",
   path: "/404",
-  noIndex: true,
 });
 
 export default function NotFound() {

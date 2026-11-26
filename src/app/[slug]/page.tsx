@@ -4,8 +4,10 @@ import { AdSlot } from "@/components/ads/AdSlot";
 import { ToolContent } from "@/components/content/ToolContent";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Container } from "@/components/layout/Container";
+import { GuideLinks } from "@/components/related/GuideLinks";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { toolComponents } from "@/components/tools/registry";
+import { guides } from "@/content/guides";
 import { getToolContent } from "@/content/tools";
 import { t } from "@/i18n/translations";
 import { breadcrumbJsonLd, faqJsonLd, webApplicationJsonLd } from "@/lib/jsonld";
@@ -56,6 +58,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
   if (!tool || !content || !ToolComponent) notFound();
 
   const category = getCategoryBySlug(tool.categorySlug);
+  const relatedGuides = guides.filter((guide) => guide.relatedTools.includes(slug));
   const breadcrumbs = [
     { name: t("breadcrumb.home"), path: "/" },
     ...(category && isCategoryPublished(category.slug)
@@ -78,6 +81,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
         <ToolComponent tool={tool} />
       </div>
       <ToolContent content={content} />
+      <GuideLinks guides={relatedGuides} />
       <div className="mx-auto mt-14 max-w-3xl">
         <AdSlot />
       </div>

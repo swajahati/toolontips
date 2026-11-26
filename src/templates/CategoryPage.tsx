@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Container } from "@/components/layout/Container";
+import { GuideLinks } from "@/components/related/GuideLinks";
 import { ToolCard } from "@/components/related/ToolCard";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { guides } from "@/content/guides";
 import { t } from "@/i18n/translations";
 import { getCategoryBySlug, getToolsForCategory, isCategoryPublished } from "@/lib/registry";
 import { breadcrumbJsonLd } from "@/lib/jsonld";
@@ -40,6 +42,10 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   if (!category || !isCategoryPublished(slug)) notFound();
 
   const tools = getToolsForCategory(slug);
+  const toolSlugs = new Set(tools.map((tool) => tool.slug));
+  const relatedGuides = guides.filter((guide) =>
+    guide.relatedTools.some((toolSlug) => toolSlugs.has(toolSlug)),
+  );
 
   return (
     <Container className="py-10">
@@ -75,6 +81,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           ))}
         </div>
       </section>
+      <GuideLinks guides={relatedGuides} />
     </Container>
   );
 }

@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "Toolontips",
   domain: "toolsontip.com",
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://toolsontip.com").replace(/\/$/, ""),
+  url: "https://toolsontip.com",
   description:
     "Free online tools for PDFs, images, finance, text and everyday tasks. Open a tool, use it in your browser and download the result without signing up.",
   locale: "en",
